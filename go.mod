@@ -6,8 +6,10 @@ require (
 	github.com/ethereum/go-ethereum v1.10.25
 	github.com/gin-gonic/gin v1.8.1
 	github.com/jackxuqq/dApp v0.0.0-20221103051727-5f804e3ff59a
-	gorm.io/gorm v1.24.1
+	github.com/jinzhu/gorm v1.9.16
 )
+
+replace github.com/jackxuqq/dApp => ./
 
 require (
 	github.com/StackExchange/wmi v0.0.0-20180116203802-5d049714c4a6 // indirect
@@ -23,7 +25,6 @@ require (
 	github.com/goccy/go-json v0.9.7 // indirect
 	github.com/gorilla/websocket v1.4.2 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
-	github.com/jinzhu/now v1.1.4 // indirect
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect

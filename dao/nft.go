@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/jackxuqq/dApp/model"
-	"gorm.io/gorm"
+	"github.com/jinzhu/gorm"
 )
 
 type NtfStore interface {
@@ -38,7 +38,7 @@ func (n *NtfMysql) Create(attributes map[string]string) (error, int64) {
 	m := model.Ntf{}
 	m.Title = attributes[model.AttributeTitle]
 	m.Image = attributes[model.AttributeImage]
-	m.Amount, _ = strconv.Atoi(attributes[model.AttributeAmount])
+	m.Amount, _ = strconv.ParseInt(attributes[model.AttributeAmount],10, 64)
 	m.Status = model.NSBulding
 	result := n.db.Create(m)
 	if result.Error != nil {
@@ -47,7 +47,7 @@ func (n *NtfMysql) Create(attributes map[string]string) (error, int64) {
 	return nil, m.Token
 }
 
-func (n *NtfMysql) UpdateStatus(token int64, status NtfStatus) error {
+func (n *NtfMysql) UpdateStatus(token int64, status model.NtfStatus) error {
 	result := n.db.Where("token=?", token).Update("status", status)
 	if result.Error != nil {
 		return result.Error

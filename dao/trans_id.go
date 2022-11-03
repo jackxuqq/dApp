@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/jackxuqq/dApp/model"
-	"gorm.io/gorm"
+	"github.com/jinzhu/gorm"
 )
 
 type TransIDStore interface {
@@ -28,11 +28,11 @@ func NewTransIDMysql() (error, TransIDStore) {
 	return nil, ret
 }
 
-func (t *TransIDMysl) Generate() (error, int64) {
-	t := model.TransID{}
-	result := t.db.Create(t)
+func (t *TransIDMysql) Generate() (error, int64) {
+	tr := model.TransID{}
+	result := t.db.Create(tr)
 	if result.Error != nil {
 		return result.Error, 0
 	}
-	return nil, t.ID
+	return nil, tr.ID
 }

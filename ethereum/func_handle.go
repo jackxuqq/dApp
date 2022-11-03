@@ -1,9 +1,6 @@
 package ethereum
 
 import (
-	"fmt"
-
-	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
 )
 
@@ -19,10 +16,12 @@ func NewNodeHandle() (error, *NodeHandle) {
 	ret := &NodeHandle{
 		eth: eth,
 	}
-	return ret
+	return nil,ret
 }
 
 func (n *NodeHandle) Mint(uid int64, token int64, amount int64, attr map[string]string) error {
+	return nil
+	/*
 	contract, err := NewDApp1155(common.HexToAddress("replace 2 contract addr"))
 	if err != nil {
 		return err
@@ -32,21 +31,25 @@ func (n *NodeHandle) Mint(uid int64, token int64, amount int64, attr map[string]
 		strAttr += fmt.Sprintf("\"%s\":\"%s\"", k, v)
 	}
 	strAttr += "}"
-	_, err := contract.Mint(uid, token, amount, strAttr)
+	_, err = contract.Mint(uid, token, amount, strAttr)
 	if err != nil {
 		return err
 	}
 	return nil
+	 */
 }
 
-func (n *NodeHandle) Transfer(from int64, to int64, token int64, amount int64, ext string) {
+func (n *NodeHandle) Transfer(from int64, to int64, token int64, amount int64, ext string) error {
+	return nil
+	/*
 	contract, err := NewDApp1155(common.HexToAddress("replace 2 contract addr"))
 	if err != nil {
 		return err
 	}
-	err := contract.Transfer(from, to, token, amount, ext)
+	err = contract.Transfer(from, to, token, amount, ext)
 	if err != nil {
 		return err
 	}
 	return nil
+	 */
 }

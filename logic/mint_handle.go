@@ -15,9 +15,9 @@ import (
 func (d *DAppLogic) Mint(uid int64, title string, image string, amount int64) (error, int64) {
 	//step1: create nft record in db
 	attr := make(map[string]string)
-	attr[model.model.AttributeTitle] = title
+	attr[model.AttributeTitle] = title
 	attr[model.AttributeImage] = image
-	attr[model.AttributeAmount] = strconv.Itoa(amount)
+	attr[model.AttributeAmount] = strconv.FormatInt(amount,10)
 	err, token := d.ntf.Create(attr)
 	if err != nil {
 		return err, 0

@@ -10,7 +10,7 @@ import (
 func main() {
 
 	//init logic imp
-	imp, err := logic.NewDAppLogic()
+	err,imp := logic.NewDAppLogic()
 	if err != nil {
 		panic(err)
 	}
@@ -20,11 +20,11 @@ func main() {
 
 	//regist cmd list
 	r.GET("/mint", func(c *gin.Context) {
-		uid, _ := strconv.Atoi(c.Query("uid"))
-		title = c.Query("title")
-		image = c.Query("image")
-		amount, _ := strconv.Atoi(c.Query("amount"))
-		err, token = imp.Mint(uid, title, image, amount)
+		uid, _ := strconv.ParseInt(c.Query("uid"), 10, 64)
+		title := c.Query("title")
+		image := c.Query("image")
+		amount, _ := strconv.ParseInt(c.Query("amount"), 10, 64)
+		err, token := imp.Mint(uid, title, image, amount)
 		if err != nil {
 			c.JSON(200, gin.H{
 				"message": err.Error(),
@@ -38,10 +38,10 @@ func main() {
 	})
 
 	r.GET("/transfer", func(c *gin.Context) {
-		from, _ := strconv.Atoi(c.Query("from"))
-		to, _ := strconv.Atoi(c.Query("to"))
-		token, _ := strconv.Atoi(c.Query("token"))
-		amount, _ := strconv.Atoi(c.Query("amount"))
+		from, _ := strconv.ParseInt(c.Query("from"),10, 64)
+		to, _ := strconv.ParseInt(c.Query("to"), 10, 64)
+		token, _ := strconv.ParseInt(c.Query("token"), 10, 64)
+		amount, _ := strconv.ParseInt(c.Query("amount"),10, 64)
 		err = imp.Transfer(from, to, token, amount)
 		if err != nil {
 			c.JSON(200, gin.H{

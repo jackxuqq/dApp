@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"gorm.io/gorm"
+	"github.com/jinzhu/gorm"
 
 	"github.com/jackxuqq/dApp/model"
 )
@@ -18,7 +18,7 @@ type TransSeqMysql struct {
 	db *gorm.DB
 }
 
-func NewTransSeqMysql(error, TransSeqStore) {
+func NewTransSeqMysql()(error, TransSeqStore) {
 	db, err := gorm.Open("mysql", "root:passwd@tcp(127.0.0.1:3306)/nft?charset=utf8")
 	if err != nil {
 		fmt.Printf("init mysql fail[%v]\n", err)
@@ -32,14 +32,14 @@ func NewTransSeqMysql(error, TransSeqStore) {
 }
 
 func (t *TransSeqMysql) Create(transID int64, from int64, to int64, token int64, amount int64) error {
-	t := model.TransSeq{}
-	t.ID = transID
-	t.From = from
-	t.To = to
-	t.Amount = amount
-	t.OccurtTs = time.Now().UnixTimestamp()
-	t.Status = model.TSTransfering
-	result := t.db.Create(t)
+	tr := model.TransSeq{}
+	tr.ID = transID
+	tr.From = from
+	tr.To = to
+	tr.Amount = amount
+	tr.OccurtTs = time.Now().Unix()
+	tr.Status = model.TSTransfering
+	result := t.db.Create(tr)
 	if result.Error != nil {
 		return result.Error
 	}
@@ -47,7 +47,7 @@ func (t *TransSeqMysql) Create(transID int64, from int64, to int64, token int64,
 }
 
 func (t *TransSeqMysql) UpdateStatus(transID int64, status model.TransStatus) error {
-	result := n.db.Where("id=?", transID).Update("status", status)
+	result := t.db.Where("id=?", transID).Update("status", status)
 	if result.Error != nil {
 		return result.Error
 	}
