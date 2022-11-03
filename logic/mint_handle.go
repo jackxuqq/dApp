@@ -7,8 +7,8 @@ package logic
 // amount 铸造数量
 // return nft token
 func (d *DAppLogic) Mint(uid int64, title string, image string, amount int64) (error, int64) {
-	//step1: rpc ethereum mint func
+	//step1: create nft record in db
 
-	//step2: create nft record in db
+	//step2: rpc ethereum mint func
 
 }
