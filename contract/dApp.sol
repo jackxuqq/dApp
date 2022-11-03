@@ -7,16 +7,16 @@ contract DApp1155 is ERC1155 {
 
 	constructor() ERC1155("https://baseUrl.com"){}
 
-	function mint(address _to, uint _token, uint _amt, string _tokenUrl) public returns(uint _token) {
+	function mint(address  _to, uint  _token, uint  _amt, string memory _tokenUrl) public returns(uint _ntoken) {
 		_mint(_to, _token,  _amt, "");
 		_tokenURIs[_token] = _tokenUrl;
-		return _token
+		return _token;
 	}
 
-	function transfer(address _from, address _to, uint _token, uint _amt, string _ext) public{
-		bytes data
-		data = _ext
-		_safeTransFrom(_from, _to, _token, _amt, data)
-		emit TransferNFT(_from, _from, _to, _token, _amt, data);
+	function transfer(address _from, address _to, uint _token, uint _amt, string memory _ext) public{
+		bytes memory data;
+		data = bytes(_ext);
+		_safeTransferFrom(_from, _to, _token, _amt, data);
+		emit TransferNFT(_from, _from, _to, _token, _amt, _ext);
 	}
 }
