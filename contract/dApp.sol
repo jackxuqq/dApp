@@ -2,7 +2,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 
 contract DApp1155 is ERC1155 {
-
+	event TransferNFT(address _operator, address _from, address _to, uint _token, uint _amt, string _ext);
 	mapping(uint => string) private _tokenURIs;
 
 	constructor() ERC1155("https://baseUrl.com"){}
@@ -13,9 +13,10 @@ contract DApp1155 is ERC1155 {
 		return _token
 	}
 
-	function transfer(address _from, address _to, uint _token, uint _amt, string ext) public{
+	function transfer(address _from, address _to, uint _token, uint _amt, string _ext) public{
 		bytes data
-		data = ext
+		data = _ext
 		_safeTransFrom(_from, _to, _token, _amt, data)
+		emit TransferNFT(_from, _from, _to, _token, _amt, data);
 	}
 }
