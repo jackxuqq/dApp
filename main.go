@@ -18,7 +18,7 @@ func main() {
 	//init gin framework
 	r := gin.Default()
 
-	//regist cmd list
+	//reg cmd list
 	r.GET("/mint", func(c *gin.Context) {
 		uid, _ := strconv.ParseInt(c.Query("uid"), 10, 64)
 		title := c.Query("title")

@@ -1,5 +1,5 @@
 package ethereum
-
+// to do wait impl
 type EventHandle struct {
 	//go-ethereum lib instance
 }
