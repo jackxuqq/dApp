@@ -15,7 +15,7 @@ const (
 )
 
 type Ntf struct {
-	Token  int64  `gorm:"column:id;primaryKey;type:int;autoIncrement;"`
+	Token  int64  `gorm:"column:id;primaryKey;type:int auto_increment;"`
 	Title  string `gorm:"column:title;type:varchar(30);"`
 	Image  string `gorm:"column:image;type:varchar(100);"`
 	Amount int64  `gorm:"column:amount;type:int;"`

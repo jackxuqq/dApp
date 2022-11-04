@@ -7,9 +7,9 @@ import (
 
 type DAppLogic struct {
 
-	//func Mint(uid int64, title string, image string, amount int64)(error, int64);
+	//func Mint(addr string, title string, image string, amount int64)(error, int64);
 
-	//func (d *DAppLogic) Transfer(from int64, to int64, token int64, amount int64) error;
+	//func (d *DAppLogic) Transfer(from string, to string, token int64, amount int64) error;
 
 	//func (d *DAppLogic) HandleEvent();
 

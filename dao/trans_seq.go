@@ -10,7 +10,7 @@ import (
 )
 
 type TransSeqStore interface {
-	Create(transID int64, from int64, to int64, token int64, amount int64) error
+	Create(transID int64, from string, to string, token int64, amount int64) error
 	UpdateStatus(transID int64, status model.TransStatus) error
 }
 
@@ -19,7 +19,7 @@ type TransSeqMysql struct {
 }
 
 func NewTransSeqMysql() (error, TransSeqStore) {
-	db, err := gorm.Open("mysql", "root:passwd@tcp(127.0.0.1:3306)/nft?charset=utf8")
+	db, err := gorm.Open("mysql", "root:root@123@tcp(127.0.0.1:3306)/nft?charset=utf8")
 	if err != nil {
 		fmt.Printf("init mysql fail[%v]\n", err)
 		return err, nil
@@ -31,7 +31,7 @@ func NewTransSeqMysql() (error, TransSeqStore) {
 	return nil, ret
 }
 
-func (t *TransSeqMysql) Create(transID int64, from int64, to int64, token int64, amount int64) error {
+func (t *TransSeqMysql) Create(transID int64, from string, to string, token int64, amount int64) error {
 	tr := model.TransSeq{}
 	tr.ID = transID
 	tr.From = from

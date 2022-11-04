@@ -21,11 +21,11 @@ func main() {
 	//step3: init gin framework
 	r := gin.Default()
 	r.GET("/mint", func(c *gin.Context) {
-		uid, _ := strconv.ParseInt(c.Query("uid"), 10, 64)
+		addr := c.Query("addr")
 		title := c.Query("title")
 		image := c.Query("image")
 		amount, _ := strconv.ParseInt(c.Query("amount"), 10, 64)
-		err, token := imp.Mint(uid, title, image, amount)
+		err, token := imp.Mint(addr, title, image, amount)
 		if err != nil {
 			c.JSON(200, gin.H{
 				"message": err.Error(),
@@ -39,8 +39,8 @@ func main() {
 	})
 
 	r.GET("/transfer", func(c *gin.Context) {
-		from, _ := strconv.ParseInt(c.Query("from"), 10, 64)
-		to, _ := strconv.ParseInt(c.Query("to"), 10, 64)
+		from := c.Query("from")
+		to := c.Query("to")
 		token, _ := strconv.ParseInt(c.Query("token"), 10, 64)
 		amount, _ := strconv.ParseInt(c.Query("amount"), 10, 64)
 		err = imp.Transfer(from, to, token, amount)

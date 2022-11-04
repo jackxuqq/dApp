@@ -25,7 +25,7 @@ func NewNodeHandle() (error, *NodeHandle) {
 	return nil, ret
 }
 
-func (n *NodeHandle) Mint(uid int64, token int64, amount int64, attr map[string]string) error {
+func (n *NodeHandle) Mint(addr string, token int64, amount int64, attr map[string]string) error {
 	contract, err := NewEthereum(common.HexToAddress(dAppContractAddr), n.eth)
 	if err != nil {
 		return err
@@ -37,20 +37,20 @@ func (n *NodeHandle) Mint(uid int64, token int64, amount int64, attr map[string]
 	strAttr += "}"
 
 	transOpt, _ := bind.NewTransactorWithChainID(strings.NewReader(privateKey), passWord, Int64ToBig(chanID))
-	_, err = contract.Mint(transOpt, Int64ToAddress(uid), Int64ToBig(token), Int64ToBig(amount), strAttr)
+	_, err = contract.Mint(transOpt, common.HexToAddress(addr), Int64ToBig(token), Int64ToBig(amount), strAttr)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (n *NodeHandle) Transfer(from int64, to int64, token int64, amount int64, ext string) error {
+func (n *NodeHandle) Transfer(from string, to string, token int64, amount int64, ext string) error {
 	contract, err := NewEthereum(common.HexToAddress(dAppContractAddr), n.eth)
 	if err != nil {
 		return err
 	}
 	transOpt, _ := bind.NewTransactorWithChainID(strings.NewReader(privateKey), passWord, Int64ToBig(chanID))
-	_, err = contract.Transfer(transOpt, Int64ToAddress(from), Int64ToAddress(to), Int64ToBig(token), Int64ToBig(amount), ext)
+	_, err = contract.Transfer(transOpt, common.HexToAddress(from), common.HexToAddress(to), Int64ToBig(token), Int64ToBig(amount), ext)
 	if err != nil {
 		return err
 	}

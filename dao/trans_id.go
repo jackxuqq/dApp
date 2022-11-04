@@ -16,7 +16,7 @@ type TransIDMysql struct {
 }
 
 func NewTransIDMysql() (error, TransIDStore) {
-	db, err := gorm.Open("mysql", "root:passwd@tcp(127.0.0.1:3306)/nft?charset=utf8")
+	db, err := gorm.Open("mysql", "root:root@123@tcp(127.0.0.1:3306)/nft?charset=utf8")
 	if err != nil {
 		fmt.Printf("init mysql fail[%v]\n", err)
 		return err, nil

@@ -6,6 +6,7 @@ import (
 
 	"github.com/jackxuqq/dApp/model"
 	"github.com/jinzhu/gorm"
+	_ "gorm.io/driver/mysql"
 )
 
 type NtfStore interface {
@@ -22,7 +23,7 @@ type NtfMysql struct {
 }
 
 func NewNtfMysql() (error, NtfStore) {
-	db, err := gorm.Open("mysql", "root:passwd@tcp(127.0.0.1:3306)/nft?charset=utf8")
+	db, err := gorm.Open("mysql", "root:root@123@tcp(127.0.0.1:3306)/nft?charset=utf8")
 	if err != nil {
 		fmt.Printf("init mysql fail[%v]\n", err)
 		return err, nil
@@ -40,7 +41,7 @@ func (n *NtfMysql) Create(attributes map[string]string) (error, int64) {
 	m.Image = attributes[model.AttributeImage]
 	m.Amount, _ = strconv.ParseInt(attributes[model.AttributeAmount], 10, 64)
 	m.Status = model.NSBuilding
-	result := n.db.Create(m)
+	result := n.db.Create(&m)
 	if result.Error != nil {
 		return result.Error, 0
 	}

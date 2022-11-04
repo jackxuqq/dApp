@@ -7,12 +7,12 @@ import (
 )
 
 // Mint 铸造NFT
-// uid  用户ID
+// addr  用户地址
 // title 标题
 // image  预览图
 // amount 铸造数量
 // return nft token
-func (d *DAppLogic) Mint(uid int64, title string, image string, amount int64) (error, int64) {
+func (d *DAppLogic) Mint(addr string, title string, image string, amount int64) (error, int64) {
 	//step1: create nft record in db
 	attr := make(map[string]string)
 	attr[model.AttributeTitle] = title
@@ -24,7 +24,7 @@ func (d *DAppLogic) Mint(uid int64, title string, image string, amount int64) (e
 	}
 
 	//step2: rpc ethereum mint func
-	err = d.nodeHandle.Mint(uid, token, amount, attr)
+	err = d.nodeHandle.Mint(addr, token, amount, attr)
 	if err != nil {
 		return err, 0
 	}
