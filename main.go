@@ -9,16 +9,17 @@ import (
 
 func main() {
 
-	//init logic imp
-	err,imp := logic.NewDAppLogic()
+	//step1: init logic imp
+	err, imp := logic.NewDAppLogic()
 	if err != nil {
-		panic(err)
+		panic(any(err))
 	}
 
-	//init gin framework
-	r := gin.Default()
+	//step2: create event consume thread
+	imp.HandleEvent()
 
-	//reg cmd list
+	//step3: init gin framework
+	r := gin.Default()
 	r.GET("/mint", func(c *gin.Context) {
 		uid, _ := strconv.ParseInt(c.Query("uid"), 10, 64)
 		title := c.Query("title")
@@ -38,10 +39,10 @@ func main() {
 	})
 
 	r.GET("/transfer", func(c *gin.Context) {
-		from, _ := strconv.ParseInt(c.Query("from"),10, 64)
+		from, _ := strconv.ParseInt(c.Query("from"), 10, 64)
 		to, _ := strconv.ParseInt(c.Query("to"), 10, 64)
 		token, _ := strconv.ParseInt(c.Query("token"), 10, 64)
-		amount, _ := strconv.ParseInt(c.Query("amount"),10, 64)
+		amount, _ := strconv.ParseInt(c.Query("amount"), 10, 64)
 		err = imp.Transfer(from, to, token, amount)
 		if err != nil {
 			c.JSON(200, gin.H{
@@ -53,6 +54,5 @@ func main() {
 			"message": "OK",
 		})
 	})
-
-	//create event consume thread
+	_ = r.Run()
 }

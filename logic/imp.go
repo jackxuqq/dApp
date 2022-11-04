@@ -11,28 +11,31 @@ type DAppLogic struct {
 
 	//func (d *DAppLogic) Transfer(from int64, to int64, token int64, amount int64) error;
 
+	//func (d *DAppLogic) HandleEvent();
+
 	//dao instance
 	ntf      dao.NtfStore
 	transID  dao.TransIDStore
 	transSeq dao.TransSeqStore
 
 	//ethereum rpc instance
-	nodeHandle *ethereum.NodeHandle
+	nodeHandle  *ethereum.NodeHandle
+	eventHandle *ethereum.EventHandle
 }
 
 func NewDAppLogic() (error, *DAppLogic) {
 
-	err,ntf := dao.NewNtfMysql()
+	err, ntf := dao.NewNtfMysql()
 	if err != nil {
 		return err, nil
 	}
 
-	err,transID := dao.NewTransIDMysql()
+	err, transID := dao.NewTransIDMysql()
 	if err != nil {
 		return err, nil
 	}
 
-	err,transSeq := dao.NewTransSeqMysql()
+	err, transSeq := dao.NewTransSeqMysql()
 	if err != nil {
 		return err, nil
 	}
@@ -42,10 +45,16 @@ func NewDAppLogic() (error, *DAppLogic) {
 		return err, nil
 	}
 
+	err, eventHandle := ethereum.NewEventHandle()
+	if err != nil {
+		return err, nil
+	}
+
 	return nil, &DAppLogic{
-		ntf:        ntf,
-		transID:    transID,
-		transSeq:   transSeq,
-		nodeHandle: nodeHandle,
+		ntf:         ntf,
+		transID:     transID,
+		transSeq:    transSeq,
+		nodeHandle:  nodeHandle,
+		eventHandle: eventHandle,
 	}
 }

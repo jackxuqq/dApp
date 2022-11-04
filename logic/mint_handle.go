@@ -8,7 +8,7 @@ import (
 
 // Mint 铸造NFT
 // uid  用户ID
-// title title
+// title 标题
 // image  预览图
 // amount 铸造数量
 // return nft token
@@ -17,7 +17,7 @@ func (d *DAppLogic) Mint(uid int64, title string, image string, amount int64) (e
 	attr := make(map[string]string)
 	attr[model.AttributeTitle] = title
 	attr[model.AttributeImage] = image
-	attr[model.AttributeAmount] = strconv.FormatInt(amount,10)
+	attr[model.AttributeAmount] = strconv.FormatInt(amount, 10)
 	err, token := d.ntf.Create(attr)
 	if err != nil {
 		return err, 0

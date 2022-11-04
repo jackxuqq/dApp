@@ -18,7 +18,7 @@ type TransSeqMysql struct {
 	db *gorm.DB
 }
 
-func NewTransSeqMysql()(error, TransSeqStore) {
+func NewTransSeqMysql() (error, TransSeqStore) {
 	db, err := gorm.Open("mysql", "root:passwd@tcp(127.0.0.1:3306)/nft?charset=utf8")
 	if err != nil {
 		fmt.Printf("init mysql fail[%v]\n", err)
@@ -36,9 +36,10 @@ func (t *TransSeqMysql) Create(transID int64, from int64, to int64, token int64,
 	tr.ID = transID
 	tr.From = from
 	tr.To = to
+	tr.Token = token
 	tr.Amount = amount
-	tr.OccurtTs = time.Now().Unix()
-	tr.Status = model.TSTransfering
+	tr.OccurredTs = time.Now().Unix()
+	tr.Status = model.TSTransferring
 	result := t.db.Create(tr)
 	if result.Error != nil {
 		return result.Error

@@ -13,7 +13,7 @@ type NtfStore interface {
 	// Create 持久化ntf对象到中心化存储, 返回token
 	Create(attributes map[string]string) (error, int64)
 
-	// UpdateStaus 更新ntf对象的铸造状态
+	// UpdateStatus 更新ntf对象的铸造状态
 	UpdateStatus(token int64, status model.NtfStatus) error
 }
 
@@ -38,8 +38,8 @@ func (n *NtfMysql) Create(attributes map[string]string) (error, int64) {
 	m := model.Ntf{}
 	m.Title = attributes[model.AttributeTitle]
 	m.Image = attributes[model.AttributeImage]
-	m.Amount, _ = strconv.ParseInt(attributes[model.AttributeAmount],10, 64)
-	m.Status = model.NSBulding
+	m.Amount, _ = strconv.ParseInt(attributes[model.AttributeAmount], 10, 64)
+	m.Status = model.NSBuilding
 	result := n.db.Create(m)
 	if result.Error != nil {
 		return result.Error, 0
