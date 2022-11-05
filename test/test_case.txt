@@ -1,0 +1,6 @@
+//Mint ifc
+http://127.0.0.1:8080/mint?addr=0x9bEb4137B1B5ACF8070BC43B761A1ecdB9127Ff0&title=testtitle&image=apig&amount=10
+token = 16
+
+//Transfer ifc
+http://127.0.0.1:8080/transfer?from=0x9bEb4137B1B5ACF8070BC43B761A1ecdB9127Ff0&to=0xf595Cdf282c04ee6785a260f83736F59c2Ea2053&token=16&amount=2

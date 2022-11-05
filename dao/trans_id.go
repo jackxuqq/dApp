@@ -30,7 +30,7 @@ func NewTransIDMysql() (error, TransIDStore) {
 
 func (t *TransIDMysql) Generate() (error, int64) {
 	tr := model.TransID{}
-	result := t.db.Create(tr)
+	result := t.db.Create(&tr)
 	if result.Error != nil {
 		return result.Error, 0
 	}
