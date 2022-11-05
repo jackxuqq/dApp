@@ -6,4 +6,5 @@ const (
 	passWord         = "123456"
 	chanID           = int64(1) //TODO: replace me
 	nodeAddr         = "http://127.0.0.1:8545"
+	nodeEventAddr    = "ws://127.0.0.1:8545"
 )

@@ -18,3 +18,7 @@ type TransSeq struct {
 	CompleteTs int64  `gorm:"column:complete_ts;type:int"`
 	Status     int    `gorm:"column:status;type:int;"`
 }
+
+func (t *TransSeq) TableName() string {
+	return "t_trans_seq"
+}

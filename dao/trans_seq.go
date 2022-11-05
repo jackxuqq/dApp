@@ -48,7 +48,7 @@ func (t *TransSeqMysql) Create(transID int64, from string, to string, token int6
 }
 
 func (t *TransSeqMysql) UpdateStatus(transID int64, status model.TransStatus) error {
-	result := t.db.Where("id=?", transID).Update("status", status)
+	result := t.db.Model(&model.TransSeq{}).Where("id=?", transID).Update("status", status)
 	if result.Error != nil {
 		return result.Error
 	}

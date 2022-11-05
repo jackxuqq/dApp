@@ -21,11 +21,12 @@ type MintEvent struct {
 }
 
 type TransferEvent struct {
-	From   common.Address
-	To     common.Address
-	Token  *big.Int
-	Amount *big.Int
-	Ext    string
+	Operator common.Address
+	From     common.Address
+	To       common.Address
+	Token    *big.Int
+	Amt      *big.Int
+	Ext      string
 }
 
 type EventHandle struct {
@@ -35,12 +36,14 @@ type EventHandle struct {
 }
 
 func NewEventHandle() (error, *EventHandle) {
-	eth, err := ethclient.Dial(nodeAddr)
+	eth, err := ethclient.Dial(nodeEventAddr)
 	if err != nil {
 		return err, nil
 	}
-	mintSigHash := crypto.Keccak256Hash([]byte("MintNFT(uint _token)"))
-	transferSigHash := crypto.Keccak256Hash([]byte("TransferNFT(address _operator, address _from, address _to, uint _token, uint _amt, string _ext)"))
+	mintSigHash := crypto.Keccak256Hash([]byte("MintNFT(uint)"))
+	transferSigHash := crypto.Keccak256Hash([]byte("TransferNFT(address,address,address,uint,uint,string)"))
+	log.Printf("mintSigHash[%s]\n", mintSigHash.Hex())
+	log.Printf("transferSigHash[%s]\n", transferSigHash.Hex())
 	ret := &EventHandle{
 		eth:             eth,
 		mintSigHash:     mintSigHash,
@@ -90,14 +93,18 @@ func (e *EventHandle) init(logs chan types.Log) (error, ethereum.Subscription, *
 
 func (e *EventHandle) consume(contractAbi *abi.ABI, event *types.Log, m chan MintEvent, t chan TransferEvent) {
 	switch event.Topics[0].Hex() {
-	case e.mintSigHash.Hex():
+	//case e.mintSigHash.Hex():
+	case "0x2cc161d398589ff5526cd6b429338ae827d66c48171d3dbaeac9a7bf822935bd":
+		log.Printf("got a mint event\n")
 		var ev MintEvent
 		err := contractAbi.UnpackIntoInterface(&ev, "MintNFT", event.Data)
 		if err != nil {
 			log.Printf("Unpack MintNFT event fail:%v\n", err)
 		}
 		m <- ev
-	case e.transferSigHash.Hex():
+	//case e.transferSigHash.Hex():
+	case "0x6a2f2e877bc0a320cc6f53954a92731fe438598b0579b395c58188785ff1d460":
+		log.Printf("got a transfer event\n")
 		var ev TransferEvent
 		err := contractAbi.UnpackIntoInterface(&ev, "TransferNFT", event.Data)
 		if err != nil {
@@ -105,6 +112,6 @@ func (e *EventHandle) consume(contractAbi *abi.ABI, event *types.Log, m chan Min
 		}
 		t <- ev
 	default:
-		log.Printf("not use event:%v\n", *event)
+		log.Printf("not use event:%+v\n", *event)
 	}
 }

@@ -2,6 +2,7 @@ package dao
 
 import (
 	"fmt"
+	"log"
 	"strconv"
 
 	"github.com/jackxuqq/dApp/model"
@@ -49,8 +50,9 @@ func (n *NtfMysql) Create(attributes map[string]string) (error, int64) {
 }
 
 func (n *NtfMysql) UpdateStatus(token int64, status model.NtfStatus) error {
-	result := n.db.Where("token=?", token).Update("status", status)
+	result := n.db.Model(&model.Ntf{}).Where("id=?", token).Update("status", status)
 	if result.Error != nil {
+		log.Printf("UpdateStatus fail:%v\n", result.Error)
 		return result.Error
 	}
 	return nil
